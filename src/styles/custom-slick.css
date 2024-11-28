@@ -1,0 +1,32 @@
+/* Override Slick Carousel Arrow Styles */
+.slick-prev,
+.slick-next {
+  top: 50%; /* Adjust vertical positioning */
+  z-index: 10; /* Bring arrows on top of images */
+  background-color: transparent; /* Change background color */
+  color: black; /* Customize arrow color */
+  padding: 10px; /* Adjust padding to make arrows bigger */
+}
+
+/* You can customize more slick elements as needed */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px; /* Adjust arrow size */
+  color: white; /* Customize arrow color */
+}
+
+/* Remove or modify dots styling */
+.slick-dots {
+  bottom: -30px; /* Adjust positioning of dots */
+  margin-left: 0; /* Remove space around dots */
+}
+
+.slick-dots li button:before {
+  color: black; /* Change dot color */
+  font-size: 12px; /* Adjust size of dots */
+}
+
+/* Customize slick slide (if needed) */
+.slick-slide {
+  transition: transform 0.3s ease; /* Smooth transition */
+}

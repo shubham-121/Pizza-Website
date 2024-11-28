@@ -2,7 +2,7 @@ import Logo from "./../assets/pizzalogo.png";
 
 export default function Header() {
   return (
-    <div className="border-2 border-black border-solid  flex justify-between items-center">
+    <div className="bg-red-200 border-2 border-black border-solid  flex justify-between items-center">
       <div>
         <img src={Logo} className="max-h-[120px] w-[13vw]"></img>
       </div>

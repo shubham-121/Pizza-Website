@@ -13,13 +13,13 @@ export default function MiddleBody() {
   const [cost, setCost] = useState("");
 
   return (
-    <div className="border-black border-solid border-2 min-h-[80vh] flex">
+    <div className="bg-red-200 border-black border-solid border-2 min-h-[80vh] flex">
       <div className="px-8 mt-4">
         <p className="text-3xl text-red-600">Today's Special Pizza!</p>
         <br></br>
         <h4 className="text-3xl italic font-bold">{title}</h4>
         <h6 className="text-2xl text-stone-500 italic"> {description}</h6>
-        <div className="flex">
+        <div className="flex mt-6">
           <img
             src={ChickenPizza}
             className="max-h-[24vh] rounded-[100px] hover:scale-110"
@@ -70,19 +70,17 @@ export default function MiddleBody() {
           ></img>
         </div>
         <div className="flex justify-center items-center space-x-8 ">
-          <button className="bg-red-300 h-10 w-[10vw] rounded-[20px]">
+          <button className="bg-red-500 h-10 w-[10vw] rounded-[20px]">
             Customize order
           </button>
-          <button className="bg-red-300 h-10 w-[10vw] rounded-[20px]">
+          <button className="bg-red-500 h-10 w-[10vw] rounded-[20px]">
             {cost ? `Cost- ₹${cost}/-` : `Select A Pizza Fast`}
-            {/* Cost- ₹{cost}/- */}
           </button>
         </div>
       </div>
       <div>
         <img
           src={defaultPizza}
-          //   className="max-h-[80vh] rounded-[300px] px-20 min-w-[40vw]"
           className={
             defaultPizza === "Margeritta"
               ? "max-h-[80vh] rounded-[300px] px-20"
