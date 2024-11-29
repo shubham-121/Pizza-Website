@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import Button from "./Button";
 import Button2 from "./Button2";
+import { useDispatch, useSelector } from "react-redux";
+import Cart from "./Cart";
+import { addToCart } from "./CartSlice";
 
 const pizzaMenuApi = "http://localhost:4000/pizza-data";
 
 export default function Menu() {
+  const dispatch = useDispatch();
+  const { cartItem, pizzaArray } = useSelector((store) => store.cart);
+
   const [pizzaData, setPizzaData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,6 +74,9 @@ function GetPizzaMenu({ pizzaData, setPizzaData, isLoading, setIsLoading }) {
 }
 
 function RenderPizzaMenu({ id, name, price, img, ingredients, soldOut }) {
+  const dispatch = useDispatch();
+  const { cartItem, pizzaArray } = useSelector((store) => store.cart);
+
   return (
     <div className="flex flex-col border-2 p-2 m-4 max-w-[20vw] max-h-[90vh] hover:scale-110 hover:shadow-custom rounded-[10px] ">
       <div className="bm-4 flex justify-center items-center">
@@ -92,9 +101,33 @@ function RenderPizzaMenu({ id, name, price, img, ingredients, soldOut }) {
           ))}
         </div>
         <div className="flex  flex-row flex-wrap justify-center items-center">
-          <Button2 content={"Add To Cart"}></Button2>
+          <Button2
+            onClick={() => {
+              if (soldOut)
+                alert("Cannot add the pizza to the cart as it is sold out");
+              else dispatch(addToCart(name, id, price, soldOut));
+            }}
+            content={"Add To Cart"}
+          ></Button2>
           <Button2 content={"Add To Favs"}></Button2>
-          <Button2 content={"Quick View"}></Button2>
+          {/* <Button2 content={"Quick View"}></Button2> */}
+
+          {soldOut ? (
+            <Button2
+              style={{
+                backgroundColor: "gray",
+                textDecoration: "line-through",
+              }}
+              content={"Sold out 😥"}
+            ></Button2>
+          ) : (
+            <Button2 content={"Available✅"}></Button2>
+          )}
+          {/* <button
+            style={{ backgroundColor: "gray", textDecoration: "lineThrough" }}
+          >
+            Hi
+          </button> */}
         </div>
       </div>
     </div>

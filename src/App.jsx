@@ -7,6 +7,7 @@ import AboutUs from "./components/ABoutUs";
 import Menu from "./components/Menu";
 import ContactUs from "./components/ContactUs";
 import Homepage from "./components/Homepage";
+import Cart from "./components/Cart";
 
 import {
   BrowserRouter,
