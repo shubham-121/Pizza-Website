@@ -1,4 +1,5 @@
 import Logo from "./../assets/pizzalogo.png";
+import Button from "./Button";
 
 export default function Header() {
   return (
@@ -11,8 +12,14 @@ export default function Header() {
         <button className="px-4 py-3 text-xl font-bold">Menu</button>
         <button className="px-4 py-3 text-xl font-bold">About</button>
         <button className="px-4 py-3 text-xl font-bold">Contact Us</button>
-        <button className="px-8 py-2 text-xl font-bold bg-red-500 rounded-[50px] text-gray-100 ">
+        <button className="px-8 py-2 text-xl font-bold bg-red-900 rounded-[50px] text-gray-100 ">
           Sign In
+        </button>
+        <button className="px-5 py-1 text-l font-bold bg-red-900 rounded-[50px] text-gray-100">
+          My Cart🛒
+        </button>
+        <button className="px-5 py-1 text-l font-bold bg-red-900 rounded-[50px] text-gray-100">
+          Favs💖
         </button>
       </div>
     </div>

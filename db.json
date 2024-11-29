@@ -14,7 +14,7 @@
       "name": "Capricciosa",
       "unitPrice": 14,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-2.jpg",
-      "ingredients": ["tomato", "mozzarella", "ham", "mushrooms", "artichoke"],
+      "ingredients": ["tomato", "mozzarella", "ham", "mushrooms"],
       "soldOut": true
     },
     {
@@ -46,13 +46,7 @@
       "name": "Vegetale",
       "unitPrice": 13,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-6.jpg",
-      "ingredients": [
-        "tomato",
-        "mozzarella",
-        "bell peppers",
-        "onions",
-        "mushrooms"
-      ],
+      "ingredients": ["tomato", "mozzarella", "onions", "mushrooms"],
       "soldOut": false
     },
     {
@@ -68,7 +62,7 @@
       "name": "Siciliana",
       "unitPrice": 16,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-8.jpg",
-      "ingredients": ["tomato", "mozzarella", "anchovies", "olives", "capers"],
+      "ingredients": ["tomato", "mozzarella", "anchovies", "olives"],
       "soldOut": true
     },
     {
@@ -100,13 +94,7 @@
       "name": "Mediterranean",
       "unitPrice": 16,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-12.jpg",
-      "ingredients": [
-        "tomato",
-        "mozzarella",
-        "sun-dried tomatoes",
-        "olives",
-        "artichoke"
-      ],
+      "ingredients": ["mozzarella", "dry tomatoes", "olives"],
       "soldOut": false
     },
     {
@@ -114,14 +102,7 @@
       "name": "Greek",
       "unitPrice": 16,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-13.jpg",
-      "ingredients": [
-        "tomato",
-        "mozzarella",
-        "spinach",
-        "feta",
-        "olives",
-        "pepperoncini"
-      ],
+      "ingredients": ["tomato", "mozzarella", "spinach", "pepperoncini"],
       "soldOut": true
     },
     {
@@ -137,13 +118,7 @@
       "name": "Pesto Chicken",
       "unitPrice": 16,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-15.jpg",
-      "ingredients": [
-        "pesto",
-        "mozzarella",
-        "chicken",
-        "sun-dried tomatoes",
-        "spinach"
-      ],
+      "ingredients": ["mozzarella", "chicken", "tomatoes", "spinach"],
       "soldOut": false
     },
     {
@@ -159,14 +134,7 @@
       "name": "Roasted Veggie",
       "unitPrice": 15,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-17.jpg",
-      "ingredients": [
-        "marinara",
-        "mozzarella",
-        "zucchini",
-        "eggplant",
-        "peppers",
-        "onions"
-      ],
+      "ingredients": ["marinara", "mozzarella", "peppers", "onions"],
       "soldOut": false
     },
     {
@@ -174,13 +142,7 @@
       "name": "Tofu and Mushroom",
       "unitPrice": 15,
       "imageUrl": "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/pizzas/pizza-18.jpg",
-      "ingredients": [
-        "marinara",
-        "mozzarella",
-        "tofu",
-        "mushrooms",
-        "bell peppers"
-      ],
+      "ingredients": ["mozzarella", "tofu", "mushrooms", "bell peppers"],
       "soldOut": false
     }
   ],

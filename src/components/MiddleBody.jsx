@@ -3,6 +3,7 @@ import ChickenPizza from "./../assets/chicken pizza.jpg";
 import Margeritta from "./../assets/pizza margerita.jpg";
 import PizzaNapoli from "./../assets/pizza napoli.jpg";
 import VeggieSupreme from "./../assets/veggie supreme.jpg";
+import Button from "./Button";
 
 export default function MiddleBody() {
   const [defaultPizza, setDefaultPizza] = useState(ChickenPizza);
@@ -70,12 +71,19 @@ export default function MiddleBody() {
           ></img>
         </div>
         <div className="flex justify-center items-center space-x-8 ">
-          <button className="bg-red-500 h-10 w-[10vw] rounded-[20px]">
+          {/* <button className="bg-red-500 h-10 w-[10vw] rounded-[20px] ">
             Customize order
-          </button>
-          <button className="bg-red-500 h-10 w-[10vw] rounded-[20px]">
+          </button> */}
+          {/* <button className="bg-red-500 h-10 w-[10vw] rounded-[20px]">
             {cost ? `Cost- ₹${cost}/-` : `Select A Pizza Fast`}
-          </button>
+          </button> */}
+
+          <Button content={"Customize Order?"}> </Button>
+          <Button
+            content={
+              cost ? `Order Now: ₹${cost}/- only` : `Select A Pizza Fast`
+            }
+          ></Button>
         </div>
       </div>
       <div>
