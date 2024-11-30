@@ -66,6 +66,7 @@ function GetPizzaMenu({ pizzaData, setPizzaData, isLoading, setIsLoading }) {
             img={pizza.imageUrl}
             ingredients={pizza.ingredients}
             soldOut={pizza.soldOut}
+            defaultQuantity={1}
           ></RenderPizzaMenu>
         ))}
       </div>
@@ -73,9 +74,19 @@ function GetPizzaMenu({ pizzaData, setPizzaData, isLoading, setIsLoading }) {
   );
 }
 
-function RenderPizzaMenu({ id, name, price, img, ingredients, soldOut }) {
+function RenderPizzaMenu({
+  id,
+  name,
+  price,
+  img,
+  ingredients,
+  soldOut,
+  defaultQuantity,
+}) {
   const dispatch = useDispatch();
-  const { cartItem, pizzaArray } = useSelector((store) => store.cart);
+  const { cartItems, pizzaArray } = useSelector((store) => store.cart);
+  const quantity = defaultQuantity; //default quantity is 1 for every pizza
+  const [isClicked, setIsClicked] = useState(false); //for rendering the color of add to cart button
 
   return (
     <div className="flex flex-col border-2 p-2 m-4 max-w-[20vw] max-h-[90vh] hover:scale-110 hover:shadow-custom rounded-[10px] ">
@@ -105,12 +116,20 @@ function RenderPizzaMenu({ id, name, price, img, ingredients, soldOut }) {
             onClick={() => {
               if (soldOut)
                 alert("Cannot add the pizza to the cart as it is sold out");
-              else dispatch(addToCart(name, id, price, soldOut));
+              else {
+                setIsClicked(true);
+                dispatch(addToCart(name, id, price, soldOut, img, quantity));
+                setTimeout(() => {
+                  //reset color to red after 4 seconds
+                  setIsClicked(false);
+                }, 4000);
+              }
             }}
             content={"Add To Cart"}
+            color={isClicked ? "bg-green-500" : "bg-red-400"}
           ></Button2>
           <Button2 content={"Add To Favs"}></Button2>
-          {/* <Button2 content={"Quick View"}></Button2> */}
+          {/* <button style={{ backgroundColor: "greeen" }}></button> */}
 
           {soldOut ? (
             <Button2

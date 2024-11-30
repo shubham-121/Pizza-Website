@@ -8,6 +8,7 @@ import Menu from "./components/Menu";
 import ContactUs from "./components/ContactUs";
 import Homepage from "./components/Homepage";
 import Cart from "./components/Cart";
+import Favourites from "./components/Favourites";
 
 import {
   BrowserRouter,
@@ -15,6 +16,7 @@ import {
   RouterProvider,
 } from "react-router";
 import SignIn from "./components/SignIn";
+import Order from "./components/Order";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -59,6 +61,36 @@ export default function App() {
         {
           index: true,
           element: <Header></Header>, //render the header on menu page also
+        },
+      ],
+    },
+    {
+      path: "/cart",
+      element: <Cart></Cart>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
+        },
+      ],
+    },
+    {
+      path: "/favourites",
+      element: <Favourites></Favourites>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
+        },
+      ],
+    },
+    {
+      path: "/order",
+      element: <Order></Order>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
         },
       ],
     },
