@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router";
 import Button from "./Button";
 import Button2 from "./Button2";
-import { decreaseQuantity, increaseQuantity } from "./CartSlice";
+import { decreaseQuantity, increaseQuantity, sortCart } from "./CartSlice";
+import { useState } from "react";
+
 export default function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,11 +13,54 @@ export default function Cart() {
     (store) => store.cart
   );
 
+  const [sortType, setSortType] = useState("Sort");
+
   console.log("New Cart items: ", cartItems, totalPrice);
+
+  function handleSortType(e) {
+    const sortOption = e.target.value;
+    setSortType(sortOption);
+
+    let sortedCartItems;
+
+    if (sortOption === "price") {
+      sortedCartItems = [...cartItems].sort((a, b) => b.price - a.price);
+      dispatch(sortCart(sortedCartItems));
+    } else if (sortOption === "quantity") {
+      sortedCartItems = [...cartItems].sort((a, b) => b.quantity - a.quantity);
+      dispatch(sortCart(sortedCartItems));
+    } else if (sortOption === "name") {
+      sortedCartItems = [...cartItems].sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      dispatch(sortCart(sortedCartItems));
+    }
+  }
+
   return (
     <div>
       <Outlet></Outlet>
       <div className="overflow-y-scroll min-h-[90vh] max-w-[100vw] mt-6 ml-5 mr-5 border-solid border-2 border-black">
+        <select
+          onChange={(e) => {
+            handleSortType(e);
+            // dispatch(sortCart(sortType));
+          }}
+          className="hover:scale-110 border-2 border-solid border-black px-4 py-1 mt-4 ml-4 bg-red-400  rounded-full w-[10vw] font-semibold  text-l"
+        >
+          <option className="text-center w-[2vw]" disabled>
+            Sort
+          </option>
+          <option value={"name"} className="text-center w-[2vw]">
+            By Name
+          </option>
+          <option value={"price"} className="text-center w-[2vw]">
+            By Price
+          </option>
+          <option value={"quantity"} className="text-center w-[2vw]">
+            By Quantity
+          </option>
+        </select>
         <p className="text-center italic text-xl font-semibold underline border-2 mt-4 ml-4 mr-4">
           {totalItems
             ? "Pizzas In Your Cart!😍"

@@ -5,7 +5,8 @@ const initialState = {
   totalItems: 0,
   totalPrice: 0,
   pizzaArray: [], //stores pizza only
-  favs: "",
+  totalFavItems: 0,
+  favourites: [],
 };
 
 const cartSlice = createSlice({
@@ -75,10 +76,38 @@ const cartSlice = createSlice({
     },
     updateCart(state, action) {},
 
-    addToFavs(state, action) {},
+    addToFavourites: {
+      prepare(name, id, price, soldOut, img, quantity) {
+        return {
+          payload: { name, id, price, soldOut, img, quantity },
+        };
+      },
+
+      reducer(state, action) {
+        const { name, id, price, soldOut, img, quantity } = action.payload;
+        const favs = { name, id, price, soldOut, img, quantity };
+
+        const exsistingItem = state.favourites.find((item) => item.id === id);
+        if (exsistingItem) exsistingItem.quantity += 1;
+        else state.favourites.push(favs);
+
+        state.totalFavItems += quantity;
+
+        console.log("Added to favourties", state.favourites);
+      },
+    },
     removeFromFavs(state, action) {},
 
-    sortCart(state, action) {},
+    sortCart(state, action) {
+      const sortedCartItems = action.payload;
+      state.cartItems = sortedCartItems;
+      console.log("Cart updated by price");
+    },
+    sortFavourites(state, action) {
+      const sortedFavItems = action.payload;
+      state.favourites = sortedFavItems;
+      console.log("Favourites updated");
+    },
     quickView(state) {},
   },
 });
@@ -89,7 +118,8 @@ export const {
   sortCart,
   increaseQuantity,
   decreaseQuantity,
-  addToFavs,
+  addToFavourites,
   removeFromFavs,
+  sortFavourites,
 } = cartSlice.actions;
 export default cartSlice.reducer;

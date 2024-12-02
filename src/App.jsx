@@ -9,6 +9,7 @@ import ContactUs from "./components/ContactUs";
 import Homepage from "./components/Homepage";
 import Cart from "./components/Cart";
 import Favourites from "./components/Favourites";
+import { action, action as CreateOrderAction } from "./components/Order";
 
 import {
   BrowserRouter,
@@ -17,6 +18,7 @@ import {
 } from "react-router";
 import SignIn from "./components/SignIn";
 import Order from "./components/Order";
+import OrderSummary from "./components/OrderSummary";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -87,6 +89,17 @@ export default function App() {
     {
       path: "/order",
       element: <Order></Order>,
+      action: CreateOrderAction,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
+        },
+      ],
+    },
+    {
+      path: "/orderSummary",
+      element: <OrderSummary></OrderSummary>,
       children: [
         {
           index: true,

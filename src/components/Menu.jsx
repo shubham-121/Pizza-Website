@@ -4,7 +4,7 @@ import Button from "./Button";
 import Button2 from "./Button2";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "./Cart";
-import { addToCart } from "./CartSlice";
+import { addToCart, addToFavourites } from "./CartSlice";
 
 const pizzaMenuApi = "http://localhost:4000/pizza-data";
 
@@ -52,7 +52,7 @@ function GetPizzaMenu({ pizzaData, setPizzaData, isLoading, setIsLoading }) {
   }, [setPizzaData]);
 
   return (
-    <div className="bg-stone-300">
+    <div className="bg-stone-300 scroll-smooth">
       <h4 className="text-center text-stone-700 text-4xl italic font-semibold mt-4">
         Explore from a variety of our Pizzas
       </h4>
@@ -87,6 +87,7 @@ function RenderPizzaMenu({
   const { cartItems, pizzaArray } = useSelector((store) => store.cart);
   const quantity = defaultQuantity; //default quantity is 1 for every pizza
   const [isClicked, setIsClicked] = useState(false); //for rendering the color of add to cart button
+  const [notification, setNotification] = useState(false); //for displaying the notification of item addde to the cart
 
   return (
     <div className="flex flex-col border-2 p-2 m-4 max-w-[20vw] max-h-[90vh] hover:scale-110 hover:shadow-custom rounded-[10px] ">
@@ -118,17 +119,27 @@ function RenderPizzaMenu({
                 alert("Cannot add the pizza to the cart as it is sold out");
               else {
                 setIsClicked(true);
+                setNotification(true);
                 dispatch(addToCart(name, id, price, soldOut, img, quantity));
-                setTimeout(() => {
-                  //reset color to red after 4 seconds
-                  setIsClicked(false);
-                }, 4000);
+                setTimeout(() => setNotification(false), 3000); //reset notification
+
+                // setTimeout(() => {
+                //   //reset color to red after 4 seconds
+                //   setIsClicked(false);
+                // }, 4000);
               }
             }}
             content={"Add To Cart"}
             color={isClicked ? "bg-green-500" : "bg-red-400"}
           ></Button2>
-          <Button2 content={"Add To Favs"}></Button2>
+          <Button2
+            content={"Add To Favs"}
+            onClick={() => {
+              dispatch(
+                addToFavourites(name, id, price, soldOut, img, quantity)
+              );
+            }}
+          ></Button2>
           {/* <button style={{ backgroundColor: "greeen" }}></button> */}
 
           {soldOut ? (
@@ -149,6 +160,16 @@ function RenderPizzaMenu({
           </button> */}
         </div>
       </div>
+      {notification && <AddedToCartNotification></AddedToCartNotification>}
+    </div>
+  );
+}
+
+function AddedToCartNotification() {
+  return (
+    // <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50  ">
+    <div className="border-2 border-black bg-green-500  bottom-0  px-4 py-1 relative z-50 w-[15vw] rounded-full  ">
+      <p>Pizza added to the cart</p>
     </div>
   );
 }

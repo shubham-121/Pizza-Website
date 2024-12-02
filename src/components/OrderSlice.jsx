@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  orderDetails: [], //stores the current orders
+  userDetails: [], //store the user details for currnet orders
+  orders: [],
+};
+
+const orderSlice = createSlice({
+  name: "Order",
+  initialState,
+  reducers: {
+    saveOrder(state, action) {
+      const { name, address, phone, email, cartItems } = action.payload;
+
+      const userInfo = { name, address, phone, email }; //separately for user details
+
+      const newOrder = {
+        //combine user details along with the user cart items
+        userInfo,
+        orderItems: cartItems,
+      };
+      state.orders = [...state.orders, newOrder];
+      //   state.userDetails = [...state.userDetails, userInfo];
+
+      //   const orderItems = cartItems;
+      //   state.orderDetails = [...state.orderDetails, orderItems];
+
+      console.log("Updated order details", state.orders);
+    },
+  },
+  getLocation() {},
+});
+
+export const { saveOrder, getLocation } = orderSlice.actions;
+
+export default orderSlice.reducer;
