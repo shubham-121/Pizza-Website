@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router";
 import Logo from "./../assets/pizzalogo.png";
 import Button from "./Button";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const navigate = useNavigate();
+  const { isOrdered } = useSelector((store) => store.cart);
+  console.log(isOrdered);
 
   return (
     <div className=" bg-red-200 border-2 border-black border-solid  flex justify-between items-center">
@@ -45,6 +48,16 @@ export default function Header() {
         >
           Sign In
         </button>
+
+        {isOrdered && (
+          <button
+            className="hover:scale-90 px-2 py-2  font-semibold bg-red-900 rounded-[50px] text-gray-100 "
+            onClick={() => navigate("/orderSummary")}
+          >
+            Preparing Your Order!
+          </button>
+        )}
+
         <button
           className="px-5 py-1 text-l font-bold bg-red-900 rounded-[50px] text-gray-100"
           onClick={() => navigate("/cart")}

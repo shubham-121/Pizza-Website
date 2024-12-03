@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartItems: [], //stores all data related to the pizza
+  cartItems: [], //stores all data related to the pizza    //empty after ordering
   totalItems: 0,
   totalPrice: 0,
   pizzaArray: [], //stores pizza only
   totalFavItems: 0,
   favourites: [],
+  isOrdered: false, //tracks whether there is any order preparing
 };
 
 const cartSlice = createSlice({
@@ -108,7 +109,18 @@ const cartSlice = createSlice({
       state.favourites = sortedFavItems;
       console.log("Favourites updated");
     },
-    quickView(state) {},
+    clearCart(state, action) {
+      if (state.isOrdered) {
+        //emptyt the cart once order is preparing
+        state.cartItems = [];
+        state.totalItems = 0;
+        state.totalPrice = 0;
+      }
+    },
+    toggleOrder(state, action) {
+      if (state.isOrdered) return;
+      state.isOrdered = !state.isOrdered;
+    }, //toggle isOrdered variable
   },
 });
 
@@ -121,5 +133,7 @@ export const {
   addToFavourites,
   removeFromFavs,
   sortFavourites,
+  toggleOrder,
+  clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;

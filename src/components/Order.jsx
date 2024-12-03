@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import store from "./Store";
 import { saveOrder } from "./OrderSlice";
+import { clearCart, toggleOrder } from "./CartSlice";
 
 // let userCart; //for storing the cart items and accesing in the action loader
 
@@ -105,7 +106,8 @@ export async function action({ request }) {
     console.log("User order is:", userOrder);
 
     store.dispatch(saveOrder(userOrder)); //update the order in the order slice
-    //
+    store.dispatch(toggleOrder()); // to tell whether order is preparing
+    store.dispatch(clearCart());
   } catch (err) {
     alert("Problem in confirming your order");
     console.log("Problem in confirming your order", err);
