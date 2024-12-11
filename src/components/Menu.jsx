@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Button from "./Button";
 import Button2 from "./Button2";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "./Cart";
 import { addToCart, addToFavourites } from "./CartSlice";
+import getPizzas from "../supabase/apiPizzas";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const pizzaMenuApi = "http://localhost:4000/pizza-data";
 
 export default function Menu() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItem, pizzaArray } = useSelector((store) => store.cart);
 
   const [pizzaData, setPizzaData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [addNew, setAddNew] = useState(false);
+
+  function handleAddNewPizza(prev) {
+    setAddNew(!prev);
+    navigate("/addNewPizza");
+    console.log("clicked");
+  }
 
   return (
     <div>
@@ -25,45 +35,86 @@ export default function Menu() {
         isLoading={isLoading}
         setIsLoading={setIsLoading}
       ></GetPizzaMenu>
+      <div className="bg-stone-300 flex flex-col justify-center items-center">
+        <p className="mt-2 text-xl font-bold italic">
+          Want to upload your pizza?
+        </p>
+
+        <Button
+          style={
+            "bg-purple-500  h-14 w-[10vw] rounded-[20px] mt-2 text-center text-xl font-semibold "
+          }
+          content="Add New Pizza!"
+          onClick={handleAddNewPizza}
+        ></Button>
+      </div>
     </div>
   );
 }
 
-function GetPizzaMenu({ pizzaData, setPizzaData, isLoading, setIsLoading }) {
-  useEffect(() => {
-    async function getPizzas() {
-      try {
-        const res = await fetch("http://localhost:4000/pizza-data");
-        const data = await res.json();
+function GetPizzaMenu({ isLoading, setIsLoading }) {
+  // useEffect(() => {
+  //   async function getPizzas() {
+  //     try {
+  //       const res = await fetch("http://localhost:4000/pizza-data");
+  //       const data = await res.json();
 
-        if (data) {
-          console.log(data);
-          setPizzaData(data);
-        } else
-          throw new Error(
-            "Something went wrong!😔 Cannot load the pizza menu,try again"
-          );
-      } catch (err) {
-        alert("Problem in loading the menu ");
-        console.log("Error encountered:", err);
-      }
-    }
-    getPizzas();
-  }, [setPizzaData]);
+  //       if (data) {
+  //         console.log(data);
+  //         setPizzaData(data);
+  //       } else
+  //         throw new Error(
+  //           "Something went wrong!😔 Cannot load the pizza menu,try again"
+  //         );
+  //     } catch (err) {
+  //       alert("Problem in loading the menu ");
+  //       console.log("Error encountered:", err);
+  //     }
+  //   }
+  //   getPizzas();
+  // }, [setPizzaData]);
+
+  //fetch pizzas from the database
+  // useEffect(() => {
+  //   getPizzas().then((pizza) => {
+  //     console.log(pizza);
+  //     setPizzaData(pizza);
+  //   });
+  // }, [setPizzaData]);
+
+  const queryClient = useQueryClient();
+
+  const {
+    isLoading: isPizzaLoading,
+    data: pizzaData,
+    error,
+  } = useQuery({
+    queryKey: ["pizzas"],
+    queryFn: getPizzas,
+  });
+
+  if (isPizzaLoading) {
+    setIsLoading(!isLoading);
+    return <div>Loading pizzas,plaese wait....</div>;
+  }
+
+  if (error) return <div>Error: {error.message}</div>;
+
+  console.log(pizzaData);
 
   return (
-    <div className="bg-stone-300 scroll-smooth">
+    <div className="bg-stone-300 scroll-smooth ">
       <h4 className="text-center text-stone-700 text-4xl italic font-semibold mt-4">
         Explore from a variety of our Pizzas
       </h4>
       <div className="p-4 flex flex-wrap justify-center items-center gap-6">
-        {pizzaData.map((pizza, idx) => (
+        {pizzaData?.map((pizza, idx) => (
           <RenderPizzaMenu
             key={idx}
             id={pizza.id}
             name={pizza.name}
             price={pizza.unitPrice}
-            img={pizza.imageUrl}
+            img={pizza.image}
             ingredients={pizza.ingredients}
             soldOut={pizza.soldOut}
             defaultQuantity={1}
@@ -103,7 +154,7 @@ function RenderPizzaMenu({
         <p className="text-xl font-semibold italic text-center">${price}/-</p>
 
         <div className="flex flex-wrap justify-start gap-3 max-w-full overflow-hidden">
-          {ingredients.map((ingred, idx) => (
+          {ingredients?.map((ingred, idx) => (
             <p
               className="inline-block text-center font-semibold mx-2 my-1 px-3 py-1 bg-gray-200 rounded-full"
               key={idx}

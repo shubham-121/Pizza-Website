@@ -14,6 +14,8 @@ export default function SignIn() {
 }
 
 function LogInForm() {
+  //Default user-xyz@123.com
+  //Default pswd:12345678
   const [email, setEmail] = useState("xyz@123.com");
   const [pswd, setPswd] = useState(12345678);
 

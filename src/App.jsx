@@ -9,7 +9,9 @@ import ContactUs from "./components/ContactUs";
 import Homepage from "./components/Homepage";
 import Cart from "./components/Cart";
 import Favourites from "./components/Favourites";
+import AddNewPizza from "./components/AddNewPizza";
 import { action, action as CreateOrderAction } from "./components/Order";
+import { action as AddNewPizzaAction } from "./components/AddNewPizza";
 
 import {
   BrowserRouter,
@@ -100,6 +102,19 @@ export default function App() {
     {
       path: "/orderSummary",
       element: <OrderSummary></OrderSummary>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
+        },
+      ],
+    },
+
+    {
+      path: "/addNewPizza",
+      element: <AddNewPizza></AddNewPizza>,
+      action: AddNewPizzaAction,
+
       children: [
         {
           index: true,
