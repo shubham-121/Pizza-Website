@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   orderDetails: [], //stores the current orders
-  userDetails: [], //store the user details for currnet orders
+  userDetails: [], //store the login user details for currnet orders
   orders: [],
 };
 
@@ -21,10 +21,6 @@ const orderSlice = createSlice({
         orderItems: cartItems,
       };
       state.orders = [...state.orders, newOrder];
-      //   state.userDetails = [...state.userDetails, userInfo];
-
-      //   const orderItems = cartItems;
-      //   state.orderDetails = [...state.orderDetails, orderItems];
 
       console.log("Updated order details", state.orders);
     },
