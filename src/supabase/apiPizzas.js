@@ -11,14 +11,6 @@ export default async function getPizzas() {
 export async function insertPizzas(newPizza) {
   console.log("Pizza reached", newPizza);
 
-  // const image = newPizza.image;
-  // const name = newPizza.name;
-  // const unitPrice = newPizza.unitPrice;
-  // const soldOut = newPizza.soldOut;
-  // const ingredients = newPizza.ingredients;
-
-  // console.log(ingredients);
-
   const { data, error } = await supabase
     .from("pizzas")
     .insert(newPizza)
@@ -34,4 +26,20 @@ export async function insertPizzas(newPizza) {
 
   console.log("Pizza inserted:", data);
   return data;
+}
+
+export async function uploadToStorageBucket(uniqueFileName, image) {
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from("pizzas-img")
+    .upload(`images/${uniqueFileName}`, image);
+
+  return { uploadData, uploadError };
+}
+
+export async function getFileFromStorageBucket(uniqueFileName) {
+  const { data: publicUrlData, error: urlError } = supabase.storage
+    .from("pizzas-img")
+    .getPublicUrl(`images/${uniqueFileName}`);
+
+  return { publicUrlData, urlError };
 }

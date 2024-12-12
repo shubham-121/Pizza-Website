@@ -11,7 +11,7 @@ import Cart from "./components/Cart";
 import Favourites from "./components/Favourites";
 import AddNewPizza from "./components/AddNewPizza";
 import { action, action as CreateOrderAction } from "./components/Order";
-import { action as AddNewPizzaAction } from "./components/AddNewPizza";
+// import { action as AddNewPizzaAction } from "./components/AddNewPizza";
 
 import {
   BrowserRouter,
@@ -21,6 +21,7 @@ import {
 import SignIn from "./components/SignIn";
 import Order from "./components/Order";
 import OrderSummary from "./components/OrderSummary";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -113,7 +114,7 @@ export default function App() {
     {
       path: "/addNewPizza",
       element: <AddNewPizza></AddNewPizza>,
-      action: AddNewPizzaAction,
+      // action: AddNewPizzaAction,
 
       children: [
         {

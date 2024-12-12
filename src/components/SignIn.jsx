@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
+import { login } from "../supabase/apiAuth";
+import Spinner from "./Spinner";
+import { useLogin } from "../supabase/useLogin";
 
 export default function SignIn() {
+  const { login, isLoading } = useLogin(); //custom login hook
+
   return (
     <div>
       <Outlet></Outlet>
@@ -9,6 +14,16 @@ export default function SignIn() {
         Sign In/Log In
       </h2>
       <LogInForm className=""></LogInForm>
+      {isLoading && Loading}
+      {/* <Loading></Loading> */}
+    </div>
+  );
+}
+
+function Loading() {
+  return (
+    <div className="flex justify-center items-center animate-spin">
+      <p className="font-bold text-4xl ">O</p>
     </div>
   );
 }
@@ -16,18 +31,31 @@ export default function SignIn() {
 function LogInForm() {
   //Default user-xyz@123.com
   //Default pswd:12345678
-  const [email, setEmail] = useState("xyz@123.com");
-  const [pswd, setPswd] = useState(12345678);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, isLoading } = useLogin(); //custom login hook
 
   function handleEmail(e) {
     setEmail(e.target.value);
   }
-  function handlePswd(e) {
-    setPswd(e.target.value);
+  function handlePassword(e) {
+    setPassword(e.target.value);
   }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!email || !password) return;
+
+    login({ email, password });
+  }
+
   return (
     <div className="flex justify-center items-center mt-2">
-      <form className=" border-2 border-gray-300 rounded-lg p-6 bg-white shadow-lg w-full max-w-md">
+      <form
+        onSubmit={handleSubmit}
+        className=" border-2 border-gray-300 rounded-lg p-6 bg-white shadow-lg w-full max-w-md"
+      >
         <div className="mb-4 ">
           <label
             htmlFor="email"
@@ -43,6 +71,7 @@ function LogInForm() {
             placeholder="Enter your email"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
             required
+            disabled={isLoading}
           />
         </div>
         <div className="mb-4">
@@ -55,18 +84,20 @@ function LogInForm() {
           <input
             type="text"
             id="password"
-            value={pswd}
-            onChange={handlePswd}
+            value={password}
+            onChange={handlePassword}
             placeholder="Enter your password"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
             required
+            disabled={isLoading}
           />
         </div>
         <button
           type="submit"
           className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+          disabled={isLoading}
         >
-          Log In
+          {isLoading ? "Logging In...." : "Log In"}
         </button>
       </form>
     </div>
