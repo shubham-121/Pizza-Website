@@ -31,8 +31,8 @@ function Loading() {
 function LogInForm() {
   //Default user-xyz@123.com
   //Default pswd:12345678
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("xyz@123.com");
+  const [password, setPassword] = useState("12345678");
   const { login, isLoading } = useLogin(); //custom login hook
 
   function handleEmail(e) {

@@ -2,11 +2,16 @@ import { useNavigate } from "react-router";
 import Logo from "./../assets/pizzalogo.png";
 import Button from "./Button";
 import { useSelector } from "react-redux";
+import { useLogOut } from "../supabase/useLogOut";
 
 export default function Header() {
   const navigate = useNavigate();
   const { isOrdered } = useSelector((store) => store.cart);
   console.log(isOrdered);
+
+  const { isSignedIn, disabled } = useSelector((store) => store.authentication);
+
+  const { userLogout, isLoading } = useLogOut();
 
   return (
     <div className=" bg-red-200 border-2 border-black border-solid  flex justify-between items-center">
@@ -42,12 +47,21 @@ export default function Header() {
         >
           Contact Us
         </button>
-        <button
-          className="px-8 py-2 text-xl font-bold bg-red-900 rounded-[50px] text-gray-100 "
-          onClick={() => navigate("/signin")}
-        >
-          Sign In
-        </button>
+        {isSignedIn === "Sign In" ? (
+          <button
+            className="px-8 py-2 text-xl font-bold bg-red-900 rounded-[50px] text-gray-100 hover:scale-105"
+            onClick={() => navigate("/signin")}
+          >
+            {isSignedIn}
+          </button>
+        ) : (
+          <button
+            className="px-8 py-2 text-xl font-bold bg-red-900 rounded-[50px] text-gray-100 "
+            onClick={() => userLogout()}
+          >
+            LogOut ➡️
+          </button>
+        )}
 
         {isOrdered && (
           <button

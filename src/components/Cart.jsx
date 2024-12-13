@@ -3,11 +3,15 @@ import { Outlet, useNavigate } from "react-router";
 import Button from "./Button";
 import Button2 from "./Button2";
 import { decreaseQuantity, increaseQuantity, sortCart } from "./CartSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import store from "./Store";
+import Notification from "./Notification";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { isAuth } = useSelector((store) => store.authentication);
 
   const { cartItems, totalItems, totalPrice, pizzaArray } = useSelector(
     (store) => store.cart
@@ -16,6 +20,14 @@ export default function Cart() {
   const [sortType, setSortType] = useState("Sort");
 
   console.log("New Cart items: ", cartItems, totalPrice);
+
+  useEffect(() => {
+    if (!isAuth) navigate("/signin");
+    else navigate("/cart");
+  }, [isAuth, navigate]);
+
+  // if (!totalItems)
+  //   return <Notification message={"⚠️Your cart is empty ⚠️"}></Notification>;
 
   function handleSortType(e) {
     const sortOption = e.target.value;
@@ -90,6 +102,7 @@ export default function Cart() {
 
         <div className="flex flex-row space-x-24">
           <Button2
+            disabled={totalItems === 0}
             style={{ marginBottom: "20px" }}
             content={"Order Now!"}
             onClick={() => navigate("/order")}
@@ -98,6 +111,7 @@ export default function Cart() {
           <Button2
             style={{ marginBottom: "20px" }}
             content={"Clear Cart?"}
+            disabled={totalItems === 0}
           ></Button2>
         </div>
       </div>

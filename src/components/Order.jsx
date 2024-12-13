@@ -13,17 +13,24 @@ export default function Order() {
   return (
     <div>
       <Outlet></Outlet>
-      <div>
-        <p className="text-center text-xl font-semibold italic">
+      <OrderForm></OrderForm>
+    </div>
+  );
+}
+
+function OrderForm() {
+  return (
+    <div className="flex items-center justify-center mt-4 ">
+      {" "}
+      <div className="bg-white p-8 rounded-lg shadow-custom max-h-[80vh]  max-w-2xl w-full border-2 border-stone-400">
+        <p className="text-center text-xl font-semibold italic mb-2">
           Please Confirm Your Order By Entering The Required Details.
         </p>
-        <Form
-          method="POST"
-          className="mt-2  border-2 border-stone-400 border-solid h-[70vh] max-w-[100%] "
-        >
-          <div className="flex justify-center border-2 border-black  mt-8 items-center space-y-8 flex-col">
-            <div className=" flex mt-4  flex-row space-x-10 justify-center items-center">
-              <span className=" text-xl font-semibold italic text-center border-2 min-w-[20vw]">
+        <Form method="POST" className="space-y-6">
+          <div className="flex flex-col space-y-4">
+            {/* Name input */}
+            <div className="flex items-center space-x-4">
+              <span className="text-xl font-semibold italic text-center w-32">
                 Name:
               </span>
               <input
@@ -31,12 +38,13 @@ export default function Order() {
                 type="text"
                 placeholder="Enter Your Name"
                 required
-                className="min-w-[30vw] min-h-[8vh] border-2 border-black border-solid rounded-full text-center"
-              ></input>
+                className="p-3 w-2/3 min-h-[8vh] border border-gray-300 rounded-full text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            <div className="flex  flex-row space-x-10 justify-center items-center">
-              <span className="text-center text-xl font-semibold italic border-2 min-w-[20vw]">
+            {/* Address input */}
+            <div className="flex items-center space-x-4">
+              <span className="text-xl font-semibold italic text-center w-32">
                 Address:
               </span>
               <input
@@ -44,12 +52,13 @@ export default function Order() {
                 type="text"
                 placeholder="Enter Your Address"
                 required
-                className="min-w-[30vw] min-h-[8vh]  border-2  border-black border-solid rounded-full text-center"
-              ></input>
+                className="p-3 w-2/3 min-h-[8vh] border border-gray-300 rounded-full text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            <div className="flex  flex-row space-x-10 justify-center items-center">
-              <span className="text-center text-xl font-semibold italic border-2 min-w-[20vw]">
+            {/* Phone number input */}
+            <div className="flex items-center space-x-4">
+              <span className="text-xl font-semibold italic text-center w-32">
                 Phone Number:
               </span>
               <input
@@ -57,12 +66,13 @@ export default function Order() {
                 type="text"
                 placeholder="Enter Your Phone Number"
                 required
-                className="min-w-[30vw] min-h-[8vh] border-2 border-black border-solid rounded-full text-center"
-              ></input>
+                className="p-3 w-2/3 min-h-[8vh] border border-gray-300 rounded-full text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            <div className="flex  flex-row space-x-10 justify-center items-center">
-              <span className="text-center text-xl font-semibold italic border-2 min-w-[20vw]">
+            {/* Email input */}
+            <div className="flex items-center space-x-4">
+              <span className="text-xl font-semibold italic text-center w-32">
                 Email:
               </span>
               <input
@@ -70,15 +80,15 @@ export default function Order() {
                 type="text"
                 placeholder="Enter Your Email"
                 required
-                className="min-w-[30vw] min-h-[8vh] border-2 border-black border-solid rounded-full text-center"
-              ></input>
+                className="p-3 w-2/3 min-h-[8vh] border border-gray-300 rounded-full text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
-            <div className="flex flex-row justify-center items-center space-x-16">
-              <Button2 style={{ marginLight: "40px" }} content={"Submit"}>
-                {" "}
-              </Button2>
-              <Button2 content={"Cancel"}> </Button2>
-            </div>
+          </div>
+
+          {/* Submit and Cancel buttons (Unchanged) */}
+          <div className="flex justify-center items-center space-x-16">
+            <Button2 style={{ marginLight: "40px" }} content={"Submit"} />
+            <Button2 content={"Cancel"} />
           </div>
         </Form>
       </div>

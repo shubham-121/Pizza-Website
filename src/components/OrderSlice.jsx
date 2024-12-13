@@ -4,6 +4,7 @@ const initialState = {
   orderDetails: [], //stores the current orders
   userDetails: [], //store the login user details for currnet orders
   orders: [],
+  userAuthenticated: false,
 };
 
 const orderSlice = createSlice({
@@ -26,8 +27,9 @@ const orderSlice = createSlice({
     },
   },
   getLocation() {},
+  authenticateUser() {},
 });
 
-export const { saveOrder, getLocation } = orderSlice.actions;
+export const { saveOrder, getLocation, authenticateUser } = orderSlice.actions;
 
 export default orderSlice.reducer;

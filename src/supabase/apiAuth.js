@@ -32,3 +32,12 @@ export async function getCurrentUser() {
 
   return data;
 }
+
+export async function logoutUser() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error.message);
+    throw new Error("Error occured while logging in", error);
+  }
+}
