@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   isSignedIn: "Sign In", //switch to logged-in once user signs in
   disabled: false, //if user logged-in, disable the sign in button
+  emailConfirm: false,
 };
 
 const AuthSlice = createSlice({
@@ -35,6 +36,9 @@ const AuthSlice = createSlice({
     disableSignIn(state, action) {
       state.disabled = !state.disabled;
     },
+    confirmEmail(state, action) {
+      state.emailConfirm = !state.emailConfirm;
+    },
   },
 });
 
@@ -48,6 +52,7 @@ export const {
   toggleSignIn,
   toggleSignOut,
   disableSignIn,
+  confirmEmail,
 } = AuthSlice.actions;
 
 // addToCart: {

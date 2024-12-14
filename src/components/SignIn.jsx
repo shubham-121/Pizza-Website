@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import { login } from "../supabase/apiAuth";
 import Spinner from "./Spinner";
 import { useLogin } from "../supabase/useLogin";
@@ -11,9 +11,10 @@ export default function SignIn() {
     <div>
       <Outlet></Outlet>
       <h2 className="text-center mt-8 text-xl italic font-semibold">
-        Sign In/Log In
+        Sign In First
       </h2>
       <LogInForm className=""></LogInForm>
+      <SignUp></SignUp>
       {isLoading && Loading}
       {/* <Loading></Loading> */}
     </div>
@@ -24,6 +25,16 @@ function Loading() {
   return (
     <div className="flex justify-center items-center animate-spin">
       <p className="font-bold text-4xl ">O</p>
+    </div>
+  );
+}
+
+function SignUp() {
+  return (
+    <div>
+      <h2 className="text-center mt-8 text-s italic font-light text-blue-600">
+        New user?<Link to="/signup"> Sign-up today</Link>
+      </h2>
     </div>
   );
 }

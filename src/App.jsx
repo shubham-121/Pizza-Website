@@ -22,6 +22,8 @@ import SignIn from "./components/SignIn";
 import Order from "./components/Order";
 import OrderSummary from "./components/OrderSummary";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SignUp from "./components/SignUp";
+import Profile from "./components/Profile";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -69,6 +71,17 @@ export default function App() {
         },
       ],
     },
+
+    {
+      path: "/signup",
+      element: <SignUp></SignUp>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>, //render the header on menu page also
+        },
+      ],
+    },
     {
       path: "/cart",
       element: <Cart></Cart>,
@@ -103,6 +116,17 @@ export default function App() {
     {
       path: "/orderSummary",
       element: <OrderSummary></OrderSummary>,
+      children: [
+        {
+          index: true,
+          element: <Header></Header>,
+        },
+      ],
+    },
+
+    {
+      path: "/profile",
+      element: <Profile></Profile>,
       children: [
         {
           index: true,
