@@ -116,6 +116,7 @@ export async function action({ request }) {
     console.log("User order is:", userOrder);
 
     store.dispatch(saveOrder(userOrder)); //update the order in the order slice
+    // store.dispatch(getOrder(userOrder)); //send the order to the DB
     store.dispatch(toggleOrder()); // to tell whether order is preparing
     store.dispatch(clearCart());
   } catch (err) {

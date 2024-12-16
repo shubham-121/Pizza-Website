@@ -42,7 +42,7 @@ function SignUp() {
 function LogInForm() {
   //Default user-xyz@123.com
   //Default pswd:12345678
-  const [email, setEmail] = useState("xyz@123.com");
+  const [email, setEmail] = useState("xovabit431@lofiey.com");
   const [password, setPassword] = useState("12345678");
   const { login, isLoading } = useLogin(); //custom login hook
 

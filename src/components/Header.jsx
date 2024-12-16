@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useSelector } from "react-redux";
 import { useLogOut } from "../supabase/useLogOut";
 import UserLogo from "./UserLogo";
+import Error from "./Error";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Header() {
   );
 
   const { userLogout, isLoading } = useLogOut();
+  const orders = useSelector((store) => store.order.orders);
 
   return (
     <div className=" bg-red-200 border-2 border-black border-solid  flex justify-between items-center">

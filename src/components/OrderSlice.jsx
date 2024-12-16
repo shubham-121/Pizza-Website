@@ -5,6 +5,7 @@ const initialState = {
   userDetails: [], //store the login user details for currnet orders
   orders: [],
   userAuthenticated: false,
+  newOrder: [], //contains the user details and order details
 };
 
 const orderSlice = createSlice({
@@ -26,10 +27,23 @@ const orderSlice = createSlice({
       console.log("Updated order details", state.orders);
     },
   },
+  fetchOrder(state, action) {
+    if (state.orders) state.newOrder = state.orders;
+  },
+
   getLocation() {},
   authenticateUser() {},
+  updatedOrderDetails(state, action) {
+    state.newOrder = state.orders;
+  }, //sets the complete order of the user
 });
 
-export const { saveOrder, getLocation, authenticateUser } = orderSlice.actions;
+export const {
+  saveOrder,
+  getLocation,
+  authenticateUser,
+  updatedOrderDetails,
+  fetchOrder,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

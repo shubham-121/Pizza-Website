@@ -53,35 +53,6 @@ export default function Menu() {
 }
 
 function GetPizzaMenu({ isLoading, setIsLoading }) {
-  // useEffect(() => {
-  //   async function getPizzas() {
-  //     try {
-  //       const res = await fetch("http://localhost:4000/pizza-data");
-  //       const data = await res.json();
-
-  //       if (data) {
-  //         console.log(data);
-  //         setPizzaData(data);
-  //       } else
-  //         throw new Error(
-  //           "Something went wrong!😔 Cannot load the pizza menu,try again"
-  //         );
-  //     } catch (err) {
-  //       alert("Problem in loading the menu ");
-  //       console.log("Error encountered:", err);
-  //     }
-  //   }
-  //   getPizzas();
-  // }, [setPizzaData]);
-
-  //fetch pizzas from the database
-  // useEffect(() => {
-  //   getPizzas().then((pizza) => {
-  //     console.log(pizza);
-  //     setPizzaData(pizza);
-  //   });
-  // }, [setPizzaData]);
-
   const queryClient = useQueryClient();
 
   const {
