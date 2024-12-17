@@ -3,6 +3,7 @@ import { useUser } from "../supabase/useUser";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "../supabase/apiAuth";
 import supabase from "../supabase/supabase";
+
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,7 @@ export default function Profile() {
 
   const orders = useSelector((store) => store.order.orders);
   console.log(orders);
+
   // Check if orders are available and not empty
   if (!orders || orders.length === 0) {
     return (
@@ -54,10 +56,10 @@ export default function Profile() {
             user_phoneNumber={user_phoneNumber}
           ></RenderUserDetails>
         )}
-        <PlacePizzaOrders
+        {/* <PlacePizzaOrders
           userInfo={userInfo}
           orderItems={orderItems}
-        ></PlacePizzaOrders>
+        ></PlacePizzaOrders> */}
         {orders &&
           orders[0].orderItems.map((order, idx) => (
             <RenderUserPizzas
@@ -73,32 +75,33 @@ export default function Profile() {
   );
 }
 
-function PlacePizzaOrders({ userInfo, orderItems }) {
-  const [status, setStatus] = useState("Placing order...");
+// function PlacePizzaOrders({ userInfo, orderItems }) {
+//   const [status, setStatus] = useState("Placing order...");
 
-  useEffect(() => {
-    const placeOrder = async () => {
-      try {
-        await getCurrentSession(userInfo, orderItems);
-        setStatus("Your order has been placed successfully!");
-      } catch (err) {
-        console.error(err.message);
-        setStatus("Failed to place order. Please try again.");
+//   useEffect(() => {
+//     const placeOrder = async () => {
+//       try {
+//         await getCurrentSession(userInfo, orderItems);
+//         setStatus("Your order has been placed successfully!");
+//       } catch (err) {
+//         console.error(err.message);
+//         setStatus("Failed to place order. Please try again.");
 
-        throw new Error("Cannot place the data in the DB");
-      }
-    };
-    placeOrder();
-  }, [userInfo, orderItems]);
-  // const data = getCurrentSession(userInfo, orderItems);
-  // console.log(data);
-  return (
-    <div className="text-center font-semibold text-xl italic">
-      Your Current Order!
-    </div>
-  );
-}
+//         throw new Error("Cannot place the data in the DB");
+//       }
+//     };
+//     placeOrder();
+//   }, [userInfo, orderItems]);
+//   // const data = getCurrentSession(userInfo, orderItems);
+//   // console.log(data);
+//   return (
+//     <div className="text-center font-semibold text-xl italic">
+//       Your Current Order!
+//     </div>
+//   );
+// }
 
+//function to authenticate user and insert data to the DB. Cannot be moved to separate file, due to orders=undefined, which break the component
 export async function getCurrentSession(userInfo, orderItems) {
   //check for authenticated user
 
@@ -113,7 +116,7 @@ export async function getCurrentSession(userInfo, orderItems) {
   const userId = session.user.id;
   console.log(userId);
 
-  const orderId = `ORDER-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  const order_id = `ORDER-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
   // if valid user, upload pizzas to Db
   const ordersToInsert = orderItems.map((item) => ({
@@ -125,15 +128,15 @@ export async function getCurrentSession(userInfo, orderItems) {
     soldOut: item.soldOut, // Sold-out status
     ingredients: item.ingredients || null, // Optional: if not in item, set as null
     quantity: item.quantity, // Pizza quantity ordered
-    orderId, // Shared order ID for all items in this order
+    order_id, // Shared order ID for all items in this order
     user_address: userInfo.address, // Add user's address for reference
     user_email: userInfo.email, // Add user's email for reference
   }));
 
   console.log(ordersToInsert);
 
-  const { data, error } = await supabase
-    .from("pizza-orders")
+  const { data, error } = await supabase //original working query to insert data
+    .from("pizza_orders")
     .insert(ordersToInsert);
 
   if (error) {
@@ -146,7 +149,42 @@ export async function getCurrentSession(userInfo, orderItems) {
   return data;
 }
 
+//get current loggenIn user orders from the Db and display them on the profile
+export async function getCurrentUserOrders() {
+  let { data: pizza_orders, error } = await supabase
+    .from("pizza_orders")
+    .select("name,unitPrice,image,quantity");
+
+  if (error) {
+    console.error("Error in fetching orders from the DB", error.message);
+    throw new Error("Error in fetching orders from the DB", error.message);
+  }
+
+  const set = new Set([]);
+  pizza_orders.forEach((pizza) =>
+    set.add(
+      JSON.stringify({
+        name: pizza.name,
+        price: pizza.unitPrice,
+        image: pizza.image,
+        quantity: pizza.quantity,
+      })
+    )
+  );
+
+  const uniqueOrders = Array.from(set).map((item) => JSON.parse(item));
+
+  console.log(pizza_orders);
+  console.log(uniqueOrders);
+
+  //tomorrow task
+  //now render the uniquerOrders in the profile component of the user
+}
+
+//await supabase.rpc('raw_sql',{sql:`SELECT DISTINCT name,unitPrice,image,quantity FROM pizza_orders`});
+
 function RenderUserDetails({ user_name, user_email, user_phoneNumber }) {
+  getCurrentUserOrders();
   return (
     <div className="max-w-[30vw] mt-4 border-2 border-black border-solid flex justify-start items-start flex-col">
       <p>Name: {user_name} </p>

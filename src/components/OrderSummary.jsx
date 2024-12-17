@@ -1,21 +1,63 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
+import { getCurrentSession } from "./Profile";
+import { useEffect, useState } from "react";
+import { toggleIsSavedToDatabse } from "./OrderSlice";
 
 export default function OrderSummary() {
   const dispatch = useDispatch();
-  const { orderDetails, userDetails, orders } = useSelector(
+  const { orderDetails, userDetails, orders, isSavedToDatabase } = useSelector(
     (store) => store.order
   );
+  const [status, setStatus] = useState("Saving order to database...");
+  const [isSubmitting, setIsSubmitting] = useState(false); //track data saving in DB
+
+  console.log(orders);
   console.log(orderDetails);
+
+  if (!orders || orders.length === 0) {
+    return (
+      <div>
+        <p>No orders available</p>
+        <Link to="/menu">Go back</Link>
+      </div>
+    ); // Handle the case where orders are not available
+  }
+
+  const { userInfo, orderItems } = orders[0];
+
+  useEffect(() => {
+    if (!isSavedToDatabase && orders.length > 0 && !isSubmitting) {
+      setIsSubmitting(true); // Lock to prevent further submissions
+
+      async function saveOrderToDatabase() {
+        try {
+          await getCurrentSession(userInfo, orderItems);
+
+          // Dispatch to update state once saved
+          dispatch(toggleIsSavedToDatabse());
+
+          // Update status message
+          setStatus("Your order has been saved successfully!");
+        } catch (err) {
+          console.error("Error uploading to the Databse", err.message);
+          setStatus("Error uploading the order, please try again.");
+        } finally {
+          setIsSubmitting(false); // Reset submitting flag
+        }
+      }
+
+      saveOrderToDatabase(); // Trigger order save
+    }
+  }, [orders, dispatch, isSavedToDatabase, isSubmitting, userInfo, orderItems]);
+
   return (
     <div>
-      <Outlet></Outlet>
-      <p className="text-center mt-5 text-xl font-semibold italic ">
-        Your order is being prepared, please wait😋😋
-      </p>
+      <Outlet />
+      <p className="text-center mt-5 text-xl font-semibold italic">{status}</p>
       <div>
         {orders.map((order, idx) => (
-          <RenderUserOrder key={idx} order={order}></RenderUserOrder>
+          <RenderUserOrder key={idx} order={order} />
         ))}
       </div>
     </div>

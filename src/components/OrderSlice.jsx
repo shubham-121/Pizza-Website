@@ -6,6 +6,7 @@ const initialState = {
   orders: [],
   userAuthenticated: false,
   newOrder: [], //contains the user details and order details
+  isSavedToDatabase: false, //flag to track orders saving data to Db
 };
 
 const orderSlice = createSlice({
@@ -26,16 +27,20 @@ const orderSlice = createSlice({
 
       console.log("Updated order details", state.orders);
     },
-  },
-  fetchOrder(state, action) {
-    if (state.orders) state.newOrder = state.orders;
-  },
+    toggleIsSavedToDatabse(state, action) {
+      state.isSavedToDatabase = !state.isSavedToDatabase;
+    },
 
-  getLocation() {},
-  authenticateUser() {},
-  updatedOrderDetails(state, action) {
-    state.newOrder = state.orders;
-  }, //sets the complete order of the user
+    fetchOrder(state, action) {
+      if (state.orders) state.newOrder = state.orders;
+    },
+
+    getLocation() {},
+    authenticateUser() {},
+    updatedOrderDetails(state, action) {
+      state.newOrder = state.orders;
+    }, //sets the complete order of the user
+  },
 });
 
 export const {
@@ -44,6 +49,7 @@ export const {
   authenticateUser,
   updatedOrderDetails,
   fetchOrder,
+  toggleIsSavedToDatabse,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
