@@ -84,7 +84,7 @@ function GetPizzaMenu({ isLoading, setIsLoading }) {
             key={idx}
             id={pizza.id}
             name={pizza.name}
-            price={pizza.unitPrice}
+            price={pizza.unit_price}
             img={pizza.image}
             ingredients={pizza.ingredients}
             soldOut={pizza.soldOut}

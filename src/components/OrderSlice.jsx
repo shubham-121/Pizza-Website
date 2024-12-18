@@ -27,12 +27,19 @@ const orderSlice = createSlice({
 
       console.log("Updated order details", state.orders);
     },
+    setOrder(state, action) {
+      state.orders = action.payload;
+    },
     toggleIsSavedToDatabse(state, action) {
       state.isSavedToDatabase = !state.isSavedToDatabase;
     },
 
     fetchOrder(state, action) {
       if (state.orders) state.newOrder = state.orders;
+    },
+
+    clearOrders(state, action) {
+      state.orders = [];
     },
 
     getLocation() {},
@@ -50,6 +57,8 @@ export const {
   updatedOrderDetails,
   fetchOrder,
   toggleIsSavedToDatabse,
+  clearOrders,
+  setOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
